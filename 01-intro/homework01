@@ -39,7 +39,7 @@ print("New Mediation:", new_median)
 if new_median > orig_median:
   print("Answer: Yes, it increased")
 elif new_median < orig_median:
-  print("Answer: No, it decreased")
+  print("Answer: Yes, it decreased")
 else:
   print("Answer: No")
 
