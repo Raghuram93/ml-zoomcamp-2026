@@ -1,0 +1,69 @@
+import pandas as pd
+import numpy as np
+print("Q1 Panda Version:", pd.__version__)
+
+url = "https://raw.githubusercontent.com/DataTalksClub/machine-learning-zoomcamp/main/cohorts/2026/data/car_fuel_efficiency_2026.csv"
+df = pd.read_csv(url)
+print("\n Data Loaded Successfully and Shape of Data is: ", df.shape)
+df.head()
+
+# Question 2
+print("Number of Records:", df.shape[0])
+
+#Question 3
+print("Number of Fuel Types:",df['fuel_type'].nunique())
+
+# Question 4
+miss_columns = df.isnull().sum()
+print(miss_columns)
+print("Number of columns with missing values:", (miss_columns > 0).sum())
+
+#Question 5
+print(df[df['origin'] == 'Asia'])
+asia_max = df[df['origin'] == 'Asia']['fuel_efficiency_mpg'].max()
+print("Maximum Fuel efficiency of Cars from Asia:", asia_max)
+
+# Question 6
+# Original Mediation
+orig_median = df['horsepower'].median()
+print("Original Mediation:", orig_median)
+# Most Frequent Value
+most_freq = df['horsepower'].mode()[0]
+print("Most frequent Value (mode):", most_freq)
+# Fill missing value with mode
+df_filled = df.copy()
+df_filled['horsepower'] = df_filled['horsepower'].fillna(most_freq)
+# New Mediation
+new_median = df_filled['horsepower'].median()
+print("New Mediation:", new_median)
+if new_median > orig_median:
+  print("Answer: Yes, it increased")
+elif new_median < orig_median:
+  print("Answer: No, it decreased")
+else:
+  print("Answer: No")
+
+#Question 7
+# Select Cars from Asia
+asia_cars = df[df['origin'] == 'Asia']
+#select Vehicle weight and Year
+df_x = asia_cars[['vehicle_weight', 'model_year']]
+#Select first 7 values
+df_x = df_x.head(7)
+print("Selected_data:",df_x)
+# Get Underlying numpy array
+X = df_x.values
+print("\n X shape:", X.shape)
+# Compute matrix multiplication of X and Transporse of X
+XTX = X.T @ X
+print(XTX)
+# Invert XTX
+XTX_inv = np.linalg.inv(XTX)
+print("\n XTX_inv:", XTX_inv)
+# Create array
+y = np.array([1100, 1300, 800, 900, 1000, 1100, 1200])
+# Compute w
+w = XTX_inv @ X.T @ y
+print("\n W:", w)
+# Sum of all elements of w
+print("Sum of all elements of w:", w.sum())
