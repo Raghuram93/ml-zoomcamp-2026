@@ -1,2 +1,14 @@
-
+network-intrusion-detection(NID)/
+├── data/                       # Dataset files
+├── model/                      # Saved trained model
+├── notebooks/
+│   └── 01_eda_and_modeling.ipynb
+├── scripts/
+│   ├── download_data.py
+│   └── train.py
+├── app/
+│   └── main.py                 # FastAPI application
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
 
